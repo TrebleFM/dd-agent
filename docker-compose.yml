@@ -3,15 +3,17 @@ services:
   agent:
     image: datadog/docker-dd-agent:latest
     environment:
-     - API_KEY
-     - DD_APM_ENABLED=true
+      - API_KEY
+      - DD_APM_ENABLED=true
+      - NON_LOCAL_TRAFFIC=true
+      - DOCKER_API_VERSION # Set this to whatever ECS is using
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /proc/:/host/proc
       - /cgroup/:/host/sys/fs/cgroup
     ports:
-      - 8125/udp
       - 8126/tcp
+      - 8125/udp
     privileged: true
     labels:
       - convox.agent=true
